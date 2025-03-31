@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     
     Rigidbody2D myRigidbody;
     Animator myAnimator;
-    public int MaxHealth = 3;
-    public int CurrentHealth = 3;
+    public int MaxHealth;
+    public int Health;
     public float Speed = 3.0f;
     public float Damage = 1.0f;
     Vector2 moveInput;
@@ -28,7 +28,8 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
-        
+        MaxHealth = 3;
+        Health = 3;
     }
 
     private void FixedUpdate()
@@ -46,7 +47,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && isDash == false)
         {
-            Debug.Log("Dash Start");
             StartCoroutine(Dash());
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -110,7 +110,6 @@ public class Player : MonoBehaviour
     }
     public IEnumerator Dash()
     {
-        Debug.Log("Dash!");
         isDash = true;
         dashing = true;
         myRigidbody.linearVelocity = new Vector2(moveInput.x * dashSpeed, moveInput.y * dashSpeed);
@@ -130,19 +129,19 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            myAnimator.Play("Sword_Attack_left_Clip");
+            myAnimator.Play("Sword_Walk_Attack_side_left_Clip");
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            myAnimator.Play("Sword_Attack_right_Clip");
+            myAnimator.Play("Sword_Walk_Attack_side_right_Clip");
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            myAnimator.Play("Sword_Attack_back_Clip");
+            myAnimator.Play("Sword_Walk_Attack_back_Clip");
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            myAnimator.Play("Sword_Attack_front_Clip");
+            myAnimator.Play("Sword_Walk_Attack_front_Clip");
 
             yield return null;
 
