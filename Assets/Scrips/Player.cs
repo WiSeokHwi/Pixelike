@@ -10,14 +10,15 @@ public class Player : MonoBehaviour
     Animator myAnimator;
     public int MaxHealth;
     public int Health;
-    public float Speed = 3.0f;
+    public float Speed = 2.0f;
     public float Damage = 1.0f;
     Vector2 moveInput;
     bool isDash = false;
     bool dashing = false;
     float dashCoolTime = 1.5f;
     float dashTime = 0.2f;
-    public float dashSpeed = 15f;
+    public float dashSpeed = 8f;
+    bool isAttack = false;
 
     private void Awake()
     {
@@ -37,7 +38,7 @@ public class Player : MonoBehaviour
         
 
         PlayerMove();
-        UpdateAnimator();
+
 
         
     }
@@ -49,16 +50,56 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (isAttack == false)
         {
-            StartCoroutine(Attack());
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                StartCoroutine(Attack(new Vector2(-1, 0)));
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                StartCoroutine(Attack(new Vector2(1,0)));
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                StartCoroutine(Attack(new Vector2(0,-1)));
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                StartCoroutine(Attack(new Vector2(0, 1)));
+            }
         }
+
+        UpdateAnimator();
+    }
+
+    public void AttackHZ()
+    {
+        float horizontal = 0;
+        float vertical = 0;
+
+        if (Input.GetKey(KeyCode.UpArrow)) vertical += 1;
+        else if (Input.GetKey(KeyCode.DownArrow)) vertical -= 1;
+
+        if (Input.GetKey(KeyCode.LeftArrow)) horizontal -= 1;
+        else if (Input.GetKey(KeyCode.RightArrow)) horizontal += 1;
+
+        Vector2 AttackInput = (horizontal * Vector2.right + vertical * Vector2.up).normalized;
+
+        myAnimator.SetFloat("AHZ", AttackInput.x);
+        myAnimator.SetFloat("AVZ", AttackInput.y);
+
+
     }
 
     public void PlayerMove()
     {
 
-        if (dashing == true) return;
+        if (dashing == true || isAttack == true)
+        {
+            myRigidbody.linearVelocity = Vector2.zero;
+            return;
+        }
 
         float horizontal = 0;
         float vertical = 0;
@@ -77,47 +118,31 @@ public class Player : MonoBehaviour
     }
     public void UpdateAnimator()
     {
-        myAnimator.SetFloat("Hmove", moveInput.x);
-        myAnimator.SetFloat("Vmove", moveInput.y);
-
-        if (moveInput.x > 0)
+        myAnimator.SetFloat("Horizontal", moveInput.x);
+        myAnimator.SetFloat("Vertical", moveInput.y);
+        
+        if (moveInput != Vector2.zero)
         {
-            myAnimator.Play("Sword_Walk_side_right_Clip");
-        }
-        else if (moveInput.x < 0)
-        {
-            myAnimator.Play("Sword_Walk_side_left_Clip");
-        }
-        else if (moveInput.y > 0)
-        {
-            myAnimator.Play("Sword_Walk_back_Clip");
-        }
-        else if (moveInput.y < 0)
-        {
-            myAnimator.Play("Sword_Walk_front_Clip");
-        }
-
-
-        if (moveInput.x != 0 || moveInput.y != 0) 
-        {
-            myAnimator.SetBool("moveState", true);
+            myAnimator.SetBool("Walk", true);
         }
         else
         {
-            myAnimator.SetBool("moveState", false);
+            myAnimator.SetBool("Walk", false);
         }
+
 
     }
     public IEnumerator Dash()
     {
         isDash = true;
         dashing = true;
+        myAnimator.SetBool("Run", true);
         myRigidbody.linearVelocity = new Vector2(moveInput.x * dashSpeed, moveInput.y * dashSpeed);
 
         yield return new WaitForSeconds(dashTime);
 
         dashing = false;
-
+        myAnimator.SetBool("Run", false);
         myRigidbody.linearVelocity = moveInput * Speed;
 
 
@@ -125,27 +150,25 @@ public class Player : MonoBehaviour
 
         isDash = false;
     }
-    public IEnumerator Attack()
+    public IEnumerator Attack(Vector2 HVZ)
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            myAnimator.Play("Sword_Walk_Attack_side_left_Clip");
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            myAnimator.Play("Sword_Walk_Attack_side_right_Clip");
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            myAnimator.Play("Sword_Walk_Attack_back_Clip");
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            myAnimator.Play("Sword_Walk_Attack_front_Clip");
+        myAnimator.SetTrigger("A");
+        isAttack = true;
+        myAnimator.SetFloat("AHZ", HVZ.x);
+        myAnimator.SetFloat("AVZ", HVZ.y);
 
-            yield return null;
+        yield return new WaitForSeconds(0.7f);
 
-        }
+        myAnimator.SetFloat("AHZ", 0);
+        myAnimator.SetFloat("AVZ", 0);
+
+        isAttack = false;
+
+    }
+
+    public void Test()
+    {
+        Debug.Log("Animation Event"); 
     }
 
 }
