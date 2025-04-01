@@ -95,11 +95,13 @@ public class Player : MonoBehaviour
     public void PlayerMove()
     {
 
-        if (dashing == true || isAttack == true)
+        if (isAttack == true)
         {
             myRigidbody.linearVelocity = Vector2.zero;
             return;
         }
+
+        if (dashing == true) return;
 
         float horizontal = 0;
         float vertical = 0;
