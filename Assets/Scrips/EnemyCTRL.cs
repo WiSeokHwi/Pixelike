@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.EventSystems;
 
 
 public class EnemyCTRL : MonoBehaviour
 {
+    public float maxHealth = 10f;               // 체력
+    public float Health;                       // 현재 체력
     public float moveSpeed = 1f;            // 이동 속도
     public float detectionRange = 5f;       // 플레이어 감지 범위
     public float lostPlayerChaseTime = 5f;  // 마지막 감지 위치까지 쫓는 시간
     public LayerMask playerLayer;           // 플레이어 레이어
     public LayerMask obstacleLayer;         // 장애물(벽) 레이어
     public Vector2 patrolAreaSize = new Vector2(5f, 5f); // 순찰 범위
+    public float attackRange = 2f; // 공격범위
+
+    Animator animator;
 
     private Rigidbody2D rb;
     private Vector2 randomDestination;
@@ -17,19 +24,24 @@ public class EnemyCTRL : MonoBehaviour
     private bool isChasingPlayer = false;
     private Vector2 PatolPosition;
     private bool lostPlayer = false;
-
+    private bool isAttacking = false;
+    private SpriteRenderer spriteRenderer;
     private Transform player;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         PatolPosition = rb.position;
         StartCoroutine(Patrol());
-        
+        Health = maxHealth;
+
     }
 
     void Update()
     {
+        
         FindPlayer();
     }
 
@@ -52,7 +64,7 @@ public class EnemyCTRL : MonoBehaviour
             {
                 isChasingPlayer = true;
                 lostPlayer = false;
-                
+
                 //Debug.Log(lastKnownPlayerPosition);
                 MoveTo(player.position);
             }
@@ -73,6 +85,7 @@ public class EnemyCTRL : MonoBehaviour
             isChasingPlayer = false;
             StartCoroutine(ChaseLastKnownPosition());
         }
+        
     }
 
     //  마지막 플레이어 위치로 이동
@@ -105,11 +118,49 @@ public class EnemyCTRL : MonoBehaviour
     //  이동 함수
     void MoveTo(Vector2 target)
     {
+        if (isAttacking) return;
+        Debug.Log("MoveTo!!!");
         Vector2 moveDirection = (target - (Vector2)transform.position).normalized;
+        Collider2D attackRangeCollider = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
+
+        if (moveDirection.x < 0)
+        {
+            spriteRenderer.flipX = true; // 왼쪽 방향
+        }
+        else if (moveDirection.x > 0)
+        {
+            spriteRenderer.flipX = false; // 오른쪽 방향
+        }
+
+        if (attackRangeCollider)
+        {
+            Debug.Log("공격");
+            StartCoroutine(Attack(target));
+        }
+        else
+        {
 
 
-        rb.linearVelocity = moveDirection * moveSpeed;
+            rb.linearVelocity = moveDirection * moveSpeed;
+        }          
     }
+    
+    IEnumerator Attack(Vector2 target)
+    {
+        isAttacking = true;
+        animator.SetTrigger("isAttack");
+        rb.linearVelocity = Vector2.zero;
+        Debug.Log(rb.linearVelocity);
+        yield return new WaitForSeconds(0.7f);
+        Vector2 attackDirection = (target - (Vector2)transform.position).normalized;
+        rb.linearVelocity = attackDirection * moveSpeed * 5;
+        yield return new WaitForSeconds(0.6f);
+        rb.linearVelocity = Vector2.zero;
+        yield return new WaitForSeconds(0.7f);
+        isAttacking = false;
+
+    }
+
 
 
     //  Gizmos로 감지 범위 표시
@@ -119,5 +170,7 @@ public class EnemyCTRL : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(PatolPosition, patrolAreaSize * 2);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
