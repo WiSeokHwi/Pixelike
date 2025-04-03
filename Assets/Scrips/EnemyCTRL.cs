@@ -2,6 +2,7 @@
 using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 
 public class EnemyCTRL : MonoBehaviour
@@ -28,6 +29,8 @@ public class EnemyCTRL : MonoBehaviour
     private bool isAttacking = false;
     private SpriteRenderer spriteRenderer;
     private Transform player;
+    private bool isDead = false;
+    private bool isHit = false;
 
 
     void Start()
@@ -38,13 +41,14 @@ public class EnemyCTRL : MonoBehaviour
         PatolPosition = rb.position;
         StartCoroutine(Patrol());
         Health = maxHealth;
+        isDead = false;
 
 
     }
 
     void Update()
     {
-        
+        if (isDead) return;
         FindPlayer();
     }
 
@@ -52,8 +56,8 @@ public class EnemyCTRL : MonoBehaviour
     void FindPlayer()
     {
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, detectionRange, playerLayer);
-
-        if (playerCollider && !playerObject.isDead)
+        
+        if (playerCollider)
         {
             player = playerCollider.transform;
             Vector2 direction = (player.position - transform.position).normalized;
@@ -121,7 +125,7 @@ public class EnemyCTRL : MonoBehaviour
     //  이동 함수
     void MoveTo(Vector2 target)
     {
-        if (isAttacking) return;
+        if (isAttacking || isHit) return;
         Debug.Log("MoveTo!!!");
         Vector2 moveDirection = (target - (Vector2)transform.position).normalized;
         Collider2D attackRangeCollider = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
@@ -150,23 +154,52 @@ public class EnemyCTRL : MonoBehaviour
     
     IEnumerator Attack(Vector2 target)
     {
+        if (isHit) yield break;
         isAttacking = true;
         animator.SetTrigger("isAttack");
         rb.linearVelocity = Vector2.zero;
         yield return new WaitForSeconds(0.7f);
+        if (isHit) yield break;
         Vector2 attackDirection = (target - (Vector2)transform.position).normalized;
         rb.linearVelocity = attackDirection * moveSpeed * 5;
         yield return new WaitForSeconds(0.6f);
+        if (isHit) yield break;
         rb.linearVelocity = Vector2.zero;
         yield return new WaitForSeconds(1.2f);
         isAttacking = false;
 
     }
-    IEnumerator hit()
+    public void hit(float DMG, Vector2 hitDirection)
     {
+        if (isDead) return;
+        StartCoroutine(hit_(DMG, hitDirection));
+    }
+    IEnumerator hit_(float DMG, Vector2 hitDirection)
+    {
+        Health -= DMG;
+        if(Health <= 0)
+        {
+            StartCoroutine(Dead());
+            yield break;
+        }
+        
+        isHit = true;
+        isAttacking = false;
+        animator.SetTrigger("Hit");
+        rb.AddForce(((Vector2)transform.position - hitDirection).normalized * DMG * 2, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.8f);
+        isHit = false;
 
     }
-
+    IEnumerator Dead()
+    {
+        animator.SetTrigger("Dead");
+        rb.GetComponent<Collider2D>().enabled = false;
+        isDead = true;
+        rb.linearVelocity = Vector2.zero;
+        yield return new WaitForSeconds(1f);
+        Destroy(this.gameObject);
+    }
 
 
     //  Gizmos로 감지 범위 표시

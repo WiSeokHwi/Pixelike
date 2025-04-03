@@ -23,13 +23,14 @@ public class Player : MonoBehaviour
             OnHealthChanged?.Invoke(); // 체력이 변경될 때마다 이벤트 호출
         }
     }
-
+    public float attackRange = 1.5f;
     public float Speed = 2.0f;
     public float Damage = 1.0f;
     Vector2 moveInput;
     bool isDash = false;
     bool dashing = false;
-    float dashCoolTime = 1.5f;
+    public float dashingTime;
+    public float dashCoolTime = 1.5f;
     float dashTime = 0.2f;
     public float dashSpeed = 8f;
     bool isAttack = false;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
         MaxHealth = 3;
         Health = 3;
         isDead = false;
+        dashingTime = dashCoolTime;
     }
 
     private void FixedUpdate()
@@ -67,7 +69,12 @@ public class Player : MonoBehaviour
     {
         if (isDead) return;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isDash == false)
+        if (dashingTime < dashCoolTime)
+        {
+            dashingTime += Time.deltaTime; // 대시 타이머 증가
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isDash == false && moveInput != Vector2.zero)
         {
             StartCoroutine(Dash());
         }
@@ -157,6 +164,8 @@ public class Player : MonoBehaviour
     {
         isDash = true;
         dashing = true;
+        dashingTime = 0;
+
         myAnimator.SetBool("Run", true);
         myRigidbody.linearVelocity = new Vector2(moveInput.x * dashSpeed, moveInput.y * dashSpeed);
 
@@ -177,10 +186,15 @@ public class Player : MonoBehaviour
         isAttack = true;
         myAnimator.SetFloat("AHZ", HVZ.x);
         myAnimator.SetFloat("AVZ", HVZ.y);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, HVZ, 2f, enemyLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(attackRange, attackRange), 0f, HVZ, attackRange, enemyLayer); ;
         myRigidbody.linearVelocity = Vector2.zero;
-
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.3f);
+        if (hit)
+        {
+            EnemyCTRL enemy = hit.collider.GetComponent<EnemyCTRL>();
+            enemy.hit(Damage, transform.position);
+        }
+        yield return new WaitForSeconds(0.4f);
 
         myAnimator.SetFloat("AHZ", 0);
         myAnimator.SetFloat("AVZ", 0);
@@ -236,7 +250,7 @@ public class Player : MonoBehaviour
         myAnimator.SetTrigger("Death");
         isDead = true;
 
-        myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        myRigidbody.GetComponent<Collider2D>().enabled = false;
         yield return new WaitForSeconds(1f);
         // 게임 오버 처리
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -247,7 +261,17 @@ public class Player : MonoBehaviour
         if (isAttack)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, (Vector2)transform.position + new Vector2(2f, 2f) * HVZ);
+            Gizmos.DrawCube(transform.position, new Vector2(attackRange,attackRange));
+            Vector2 endPoint = (Vector2)transform.position + HVZ.normalized * attackRange; // 목표 위치
+
+            // 시작 지점 박스 (이동 전)
+            Gizmos.DrawWireCube(transform.position, new Vector2(attackRange, attackRange));
+
+            // 끝 지점 박스 (이동 후)
+            Gizmos.DrawWireCube(endPoint, new Vector2(attackRange, attackRange));
+
+            // 이동 경로 표시 (선으로 연결)
+            Gizmos.DrawLine(transform.position, endPoint);
         }
 
     }
