@@ -11,11 +11,12 @@ public class EnemyCTRL : MonoBehaviour
     public float moveSpeed = 1f;            // 이동 속도
     public float detectionRange = 5f;       // 플레이어 감지 범위
     public float lostPlayerChaseTime = 5f;  // 마지막 감지 위치까지 쫓는 시간
+    
     public LayerMask playerLayer;           // 플레이어 레이어
     public LayerMask obstacleLayer;         // 장애물(벽) 레이어
     public Vector2 patrolAreaSize = new Vector2(5f, 5f); // 순찰 범위
     public float attackRange = 2f; // 공격범위
-
+    public Player playerObject;
     Animator animator;
 
     private Rigidbody2D rb;
@@ -28,6 +29,7 @@ public class EnemyCTRL : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Transform player;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,6 +38,7 @@ public class EnemyCTRL : MonoBehaviour
         PatolPosition = rb.position;
         StartCoroutine(Patrol());
         Health = maxHealth;
+
 
     }
 
@@ -50,7 +53,7 @@ public class EnemyCTRL : MonoBehaviour
     {
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, detectionRange, playerLayer);
 
-        if (playerCollider)
+        if (playerCollider && !playerObject.isDead)
         {
             player = playerCollider.transform;
             Vector2 direction = (player.position - transform.position).normalized;
@@ -150,14 +153,17 @@ public class EnemyCTRL : MonoBehaviour
         isAttacking = true;
         animator.SetTrigger("isAttack");
         rb.linearVelocity = Vector2.zero;
-        Debug.Log(rb.linearVelocity);
         yield return new WaitForSeconds(0.7f);
         Vector2 attackDirection = (target - (Vector2)transform.position).normalized;
         rb.linearVelocity = attackDirection * moveSpeed * 5;
         yield return new WaitForSeconds(0.6f);
         rb.linearVelocity = Vector2.zero;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1.2f);
         isAttacking = false;
+
+    }
+    IEnumerator hit()
+    {
 
     }
 

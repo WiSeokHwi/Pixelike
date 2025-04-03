@@ -11,14 +11,23 @@ public class HeartsManager : MonoBehaviour
     public GameObject fullHeart;
     public GameObject emptyHeart;
 
-    void Update()
+    void Start()
     {
+        if (Player != null)
         {
-            UpdateHearts();
+            Player.OnHealthChanged += UpdateHearts; // 이벤트 구독
+        }
+        UpdateHearts();
+    }
+    void OnDestroy()
+    {
+        if (Player != null)
+        {
+            Player.OnHealthChanged -= UpdateHearts; // 구독 해제 (메모리 누수 방지)
         }
     }
 
-        void UpdateHearts()
+    void UpdateHearts()
         {
             
         
@@ -28,8 +37,7 @@ public class HeartsManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
 
-            // 새로운 하트 생성
-            int childCount = transform.childCount;
+
 
             for (int i = 0; i < Player.MaxHealth; i++)
             {
