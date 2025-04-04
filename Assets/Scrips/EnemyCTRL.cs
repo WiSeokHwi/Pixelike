@@ -19,6 +19,8 @@ public class EnemyCTRL : MonoBehaviour
     public float attackRange = 2f; // 공격범위
     public Player playerObject;
     Animator animator;
+    public GameObject[] item; 
+    
 
     private Rigidbody2D rb;
     private Vector2 randomDestination;
@@ -186,7 +188,7 @@ public class EnemyCTRL : MonoBehaviour
         isHit = true;
         isAttacking = false;
         animator.SetTrigger("Hit");
-        rb.AddForce(((Vector2)transform.position - hitDirection).normalized * DMG * 2, ForceMode2D.Impulse);
+        rb.AddForce(((Vector2)transform.position - hitDirection).normalized * 2, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.8f);
         isHit = false;
 
@@ -197,7 +199,15 @@ public class EnemyCTRL : MonoBehaviour
         rb.GetComponent<Collider2D>().enabled = false;
         isDead = true;
         rb.linearVelocity = Vector2.zero;
+        int random = Random.Range(0, 100);
         yield return new WaitForSeconds(1f);
+        
+        
+        if (random >= 100)
+        {
+            Instantiate(item[Random.Range(0, item.Length)], transform.position, Quaternion.identity);
+        }
+        
         Destroy(this.gameObject);
     }
 

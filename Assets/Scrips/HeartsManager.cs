@@ -13,6 +13,7 @@ public class HeartsManager : MonoBehaviour
 
     void Start()
     {
+        Player = FindAnyObjectByType<Player>(); // Player 객체 찾기
         if (Player != null)
         {
             Player.OnHealthChanged += UpdateHearts; // 이벤트 구독

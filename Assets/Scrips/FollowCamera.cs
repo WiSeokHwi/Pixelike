@@ -6,7 +6,10 @@ public class FollowCamera : MonoBehaviour
     public float smoothSpeed = 0.125f;
     public Vector2 offset;
 
-
+    void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     private void LateUpdate()
     {
         {

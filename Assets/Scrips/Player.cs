@@ -23,8 +23,17 @@ public class Player : MonoBehaviour
             OnHealthChanged?.Invoke(); // 체력이 변경될 때마다 이벤트 호출
         }
     }
-    public float attackRange = 1.5f;
+    private float attackRange = 1f;
     public float Speed = 2.0f;
+    public float damage
+    {
+        get { return Damage; }
+        set
+        {
+            Damage = Mathf.Clamp(value,0f,10f);
+        
+        }
+    }
     public float Damage = 1.0f;
     Vector2 moveInput;
     bool isDash = false;
@@ -49,7 +58,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         MaxHealth = 3;
-        Health = 3;
+        Health = MaxHealth;
         isDead = false;
         dashingTime = dashCoolTime;
     }
@@ -212,6 +221,19 @@ public class Player : MonoBehaviour
             StartCoroutine(Hit(collision.transform));
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Heal_Item")
+        {
+            Health += 1;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "AttackUp_Item")
+        {
+            Damage += 0.5f;
+            Destroy(collision.gameObject);
+        }
+    }
 
 
     IEnumerator Hit(Transform enemyTransForm)
@@ -249,7 +271,7 @@ public class Player : MonoBehaviour
     {
         myAnimator.SetTrigger("Death");
         isDead = true;
-
+        myRigidbody.linearVelocity = Vector2.zero;
         myRigidbody.GetComponent<Collider2D>().enabled = false;
         yield return new WaitForSeconds(1f);
         // 게임 오버 처리
