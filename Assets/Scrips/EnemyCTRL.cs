@@ -3,6 +3,7 @@ using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using System.Linq;
 
 
 public class EnemyCTRL : MonoBehaviour
@@ -203,10 +204,8 @@ public class EnemyCTRL : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         
-        if (random >= 100)
-        {
-            Instantiate(item[Random.Range(0, item.Length)], transform.position, Quaternion.identity);
-        }
+        Instantiate(item[Random.Range(0, item.Count())], transform.position, Quaternion.identity);
+        
         
         Destroy(this.gameObject);
     }

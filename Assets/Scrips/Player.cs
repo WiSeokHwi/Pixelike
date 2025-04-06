@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
     public void PlayerMove()
     {
 
-        if (isAttack == true || dashing == true || isHit == true) return;
+        
 
         float horizontal = 0;
         float vertical = 0;
@@ -146,9 +146,9 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A)) horizontal -= 1;
         else if (Input.GetKey(KeyCode.D)) horizontal += 1;
-
+        
         moveInput = (horizontal * Vector2.right + vertical * Vector2.up).normalized;
-
+        if (isAttack == true || dashing == true || isHit == true) return;
 
         myRigidbody.linearVelocity = moveInput * Speed;
         //myAnimator.SetFloat("Speed", myRigidbody.linearVelocity.magnitude);
@@ -249,6 +249,7 @@ public class Player : MonoBehaviour
         isHit = true;
         Vector2 knockBackDirection = (transform.position - enemyTransForm.position).normalized;
         myRigidbody.linearVelocity = Vector2.zero;
+        if (isDead == true) yield break;
         myRigidbody.AddForce(knockBackDirection * 2f, ForceMode2D.Impulse);
         StartCoroutine(BlinkEffect());
         yield return new WaitForSeconds(0.5f);
