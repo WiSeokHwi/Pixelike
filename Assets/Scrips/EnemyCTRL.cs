@@ -34,18 +34,26 @@ public class EnemyCTRL : MonoBehaviour
     private Transform player;
     private bool isDead = false;
     private bool isHit = false;
+    public GameObject hellZone;
+    public Collider2D hellZoneCollider;
+    private Swaponer swaponer;
 
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rb.GetComponent<Collider2D>().enabled = true;
+        swaponer = GameObject.Find("Swaponer").GetComponent<Swaponer>();
+    }
+
+    private void OnEnable()
+    {
         PatolPosition = rb.position;
         StartCoroutine(Patrol());
         Health = maxHealth;
         isDead = false;
-
 
     }
 
@@ -121,7 +129,7 @@ public class EnemyCTRL : MonoBehaviour
         {
             randomDestination = PatolPosition + new Vector2(Random.Range(-patrolAreaSize.x, patrolAreaSize.x), Random.Range(-patrolAreaSize.y, patrolAreaSize.y));
             MoveTo(randomDestination);
-            yield return new WaitForSeconds(Random.Range(2f, 4f));
+            yield return new WaitForSeconds(Random.Range(4f, 8f));
         }
     }
 
@@ -205,9 +213,18 @@ public class EnemyCTRL : MonoBehaviour
         
         
         Instantiate(item[Random.Range(0, item.Count())], transform.position, Quaternion.identity);
-        
-        
-        Destroy(this.gameObject);
+
+        transform.position = new Vector2(
+            Random.Range(hellZoneCollider.bounds.min.x, hellZoneCollider.bounds.max.x), 
+            Random.Range(hellZoneCollider.bounds.min.y, hellZoneCollider.bounds.max.y));
+
+        // 부모를 monsterHell로 설정
+        transform.parent = hellZone.transform;
+
+        // 다시 초기화
+        gameObject.SetActive(false); // 비활성화 후 나중에 스폰 시 재활성화
+
+        swaponer.StartCoroutine(swaponer.ReSpawnMonsters());
     }
 
 
