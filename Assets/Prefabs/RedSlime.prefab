@@ -227,9 +227,9 @@ GameObject:
   - component: {fileID: 9031063445160009711}
   - component: {fileID: 5196638394661407829}
   - component: {fileID: 1746845153448838886}
-  - component: {fileID: 5301182572894333365}
+  - component: {fileID: 1308304098862999541}
   m_Layer: 7
-  m_Name: Green Slime
+  m_Name: RedSlime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,7 +244,7 @@ Transform:
   m_GameObject: {fileID: 6047337676334377336}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -297,7 +297,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_Sprite: {fileID: -9074539206338946419, guid: c80534141f80d28489b1ef92f8ff7d99,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.2471698, b: 0.43799967, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -393,7 +393,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.006084721, y: -0.16430207}
   m_Size: {x: 1.113579, y: 0.67544144}
   m_Direction: 1
---- !u!114 &5301182572894333365
+--- !u!114 &1308304098862999541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -402,11 +402,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6047337676334377336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eff799c6bbefb14f8f5f9e4871768e4, type: 3}
+  m_Script: {fileID: 11500000, guid: a5cacc653fba03b48aec7b773f7fc0de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  Health: 10
+  Health: 0
   moveSpeed: 1
   detectionRange: 5
   lostPlayerChaseTime: 5

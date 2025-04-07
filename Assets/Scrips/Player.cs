@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
         else if (Input.GetKey(KeyCode.D)) horizontal += 1;
         
         moveInput = (horizontal * Vector2.right + vertical * Vector2.up).normalized;
-        if (isAttack == true || dashing == true || isHit == true) return;
+        if (isAttack == true || dashing == true) return;
 
         myRigidbody.linearVelocity = moveInput * Speed;
         //myAnimator.SetFloat("Speed", myRigidbody.linearVelocity.magnitude);
@@ -216,7 +216,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(isDead) return;
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && !isHit)
         {
             StartCoroutine(Hit(collision.transform));
         }
@@ -252,19 +252,24 @@ public class Player : MonoBehaviour
         if (isDead == true) yield break;
         myRigidbody.AddForce(knockBackDirection * 2f, ForceMode2D.Impulse);
         StartCoroutine(BlinkEffect());
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         isHit = false;
     }
 
     IEnumerator BlinkEffect()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        for (int i = 0; i < 5; i++)  // 5¹ø ±ôºýÀÌ±â
+        float blinkTime = 0f;
+        while (blinkTime < 1.5f)  // 5¹ø ±ôºýÀÌ±â
         {
+            
+            
             spriteRenderer.color = new Color(1, 1, 1, 0);  // Åõ¸í
             yield return new WaitForSeconds(0.1f);
+            blinkTime += 0.1f;
             spriteRenderer.color = new Color(1, 1, 1, 1);  // ´Ù½Ã ¿ø·¡ »ö
             yield return new WaitForSeconds(0.1f);
+            blinkTime += 0.1f;
         }
     }
 

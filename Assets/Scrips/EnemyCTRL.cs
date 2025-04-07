@@ -14,6 +14,7 @@ public class EnemyCTRL : MonoBehaviour
     public float detectionRange = 5f;       // 플레이어 감지 범위
     public float lostPlayerChaseTime = 5f;  // 마지막 감지 위치까지 쫓는 시간
     
+    
     public LayerMask playerLayer;           // 플레이어 레이어
     public LayerMask obstacleLayer;         // 장애물(벽) 레이어
     public Vector2 patrolAreaSize = new Vector2(5f, 5f); // 순찰 범위
@@ -36,24 +37,25 @@ public class EnemyCTRL : MonoBehaviour
     private bool isHit = false;
     public GameObject hellZone;
     public Collider2D hellZoneCollider;
-    private Swaponer swaponer;
+    public Swaponer swaponer;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        rb.GetComponent<Collider2D>().enabled = true;
+        
         swaponer = GameObject.Find("Swaponer").GetComponent<Swaponer>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         PatolPosition = rb.position;
         StartCoroutine(Patrol());
         Health = maxHealth;
         isDead = false;
+        rb.GetComponent<Collider2D>().enabled = true;
 
     }
 
@@ -137,7 +139,7 @@ public class EnemyCTRL : MonoBehaviour
     void MoveTo(Vector2 target)
     {
         if (isAttacking || isHit) return;
-        Debug.Log("MoveTo!!!");
+        //Debug.Log("MoveTo!!!");
         Vector2 moveDirection = (target - (Vector2)transform.position).normalized;
         Collider2D attackRangeCollider = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
 
@@ -152,7 +154,6 @@ public class EnemyCTRL : MonoBehaviour
 
         if (attackRangeCollider)
         {
-            Debug.Log("공격");
             StartCoroutine(Attack(target));
         }
         else
@@ -202,17 +203,24 @@ public class EnemyCTRL : MonoBehaviour
         isHit = false;
 
     }
-    IEnumerator Dead()
+    protected virtual int dropChans()
+    {
+        return Random.Range(0, 100);
+    }
+    protected virtual IEnumerator Dead()
     {
         animator.SetTrigger("Dead");
         rb.GetComponent<Collider2D>().enabled = false;
         isDead = true;
         rb.linearVelocity = Vector2.zero;
-        int random = Random.Range(0, 100);
+        
         yield return new WaitForSeconds(1f);
         
+        if (dropChans() >= 50)
+        {
+            Instantiate(item[Random.Range(0, item.Count())], transform.position, Quaternion.identity);
+        }
         
-        Instantiate(item[Random.Range(0, item.Count())], transform.position, Quaternion.identity);
 
         transform.position = new Vector2(
             Random.Range(hellZoneCollider.bounds.min.x, hellZoneCollider.bounds.max.x), 
@@ -221,10 +229,15 @@ public class EnemyCTRL : MonoBehaviour
         // 부모를 monsterHell로 설정
         transform.parent = hellZone.transform;
 
+        yield return new WaitForSeconds(20f);
+
+        StartCoroutine(swaponer.ReSpawnMonsters());
         // 다시 초기화
         gameObject.SetActive(false); // 비활성화 후 나중에 스폰 시 재활성화
 
-        swaponer.StartCoroutine(swaponer.ReSpawnMonsters());
+        
+
+        
     }
 
 
