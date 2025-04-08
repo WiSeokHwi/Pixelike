@@ -4,6 +4,8 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 using System.Linq;
+using TMPro;
+using static UnityEngine.UI.Image;
 
 
 public class EnemyCTRL : MonoBehaviour
@@ -13,8 +15,9 @@ public class EnemyCTRL : MonoBehaviour
     public float moveSpeed = 1f;            // 이동 속도
     public float detectionRange = 5f;       // 플레이어 감지 범위
     public float lostPlayerChaseTime = 5f;  // 마지막 감지 위치까지 쫓는 시간
-    
-    
+    private Vector2 rayBoxSize = new Vector2(1.5f, 1.5f); // 레이캐스트 박스 크기
+
+
     public LayerMask playerLayer;           // 플레이어 레이어
     public LayerMask obstacleLayer;         // 장애물(벽) 레이어
     public Vector2 patrolAreaSize = new Vector2(5f, 5f); // 순찰 범위
@@ -73,12 +76,14 @@ public class EnemyCTRL : MonoBehaviour
         if (playerCollider)
         {
             player = playerCollider.transform;
+           
             Vector2 direction = (player.position - transform.position).normalized;
 
-            //  Enemy와 Player 사이 장애물 체크
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, detectionRange, obstacleLayer);
+            float distance = Vector2.Distance(transform.position, player.position);
+            Vector2 fullBoxSize = new Vector2(distance, rayBoxSize.y); // 방향 따라 바꿔도 됨
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            RaycastHit2D hit = Physics2D.BoxCast(transform.position, fullBoxSize, angle, direction, distance, LayerMask.GetMask("Wall"));
 
-            Debug.DrawRay(transform.position, direction * detectionRange, Color.cyan);
 
             if (hit.collider == null) // 장애물이 없으면 플레이어 쫓기
             {
@@ -90,7 +95,13 @@ public class EnemyCTRL : MonoBehaviour
             }
             else // 장애물이 있으면 마지막 위치로 이동
             {
-                lastKnownPlayerPosition = player.position;
+                if (isChasingPlayer)
+                {
+                    lastKnownPlayerPosition = player.position;
+                    Debug.DrawLine(lastKnownPlayerPosition - Vector2.one * 1f, lastKnownPlayerPosition + Vector2.one * 1f, Color.red, 5f);
+                    Debug.Log("장애물 발견");
+                }
+                
                 if (isChasingPlayer) // 플레이어를 쫓던 상태라면
                 {
                     lostPlayer = true;
@@ -101,6 +112,7 @@ public class EnemyCTRL : MonoBehaviour
         }
         else if (!playerCollider && isChasingPlayer)
         {
+            lastKnownPlayerPosition = player.position;
             lostPlayer = true;
             isChasingPlayer = false;
             StartCoroutine(ChaseLastKnownPosition());
@@ -250,5 +262,24 @@ public class EnemyCTRL : MonoBehaviour
         Gizmos.DrawWireCube(PatolPosition, patrolAreaSize * 2);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        if (player == null) return;
+        Vector2 origin = transform.position;
+        Vector2 direction = (player.position - transform.position).normalized;
+        float distance = Vector2.Distance(transform.position, player.position);
+        // 중심점 계산 (전체 Box 영역의 중심)
+        Vector2 center = origin + direction * distance * 0.5f;
+
+        // 회전 각도 계산 (방향 → 각도로 변환)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // 전체 길이만큼 박스 크기 확장 (가로 또는 세로로)
+        Vector2 fullBoxSize = new Vector2(distance, rayBoxSize.y); // 방향 따라 바꿔도 됨
+
+        // 회전과 위치 반영
+        Gizmos.color = Color.yellow;
+        Gizmos.matrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 0, angle), Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, fullBoxSize); // 회전은 이렇게 적용됨!
+        //Gizmos.matrix = Matrix4x4.identity; // 원래대로 되돌리기
     }
 }
