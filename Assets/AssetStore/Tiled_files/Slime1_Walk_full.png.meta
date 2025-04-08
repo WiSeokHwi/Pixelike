@@ -226,6 +226,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1122,7 +1135,47 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime1_Walk_full_0: -1040486726084658542
+      Slime1_Walk_full_1: -9042389951339456768
+      Slime1_Walk_full_10: 6037728672781537719
+      Slime1_Walk_full_11: -1180474433264888801
+      Slime1_Walk_full_12: -6835861174661294362
+      Slime1_Walk_full_13: -7717242273592334296
+      Slime1_Walk_full_14: -4937802256843577110
+      Slime1_Walk_full_15: -5353367734648484020
+      Slime1_Walk_full_16: 7935988641328174447
+      Slime1_Walk_full_17: 8660215723907194615
+      Slime1_Walk_full_18: 3090062480591365697
+      Slime1_Walk_full_19: 2032127489097491597
+      Slime1_Walk_full_2: -6296168497087565006
+      Slime1_Walk_full_20: -4208909898970757702
+      Slime1_Walk_full_21: 436528461723990316
+      Slime1_Walk_full_22: -2295919947684197202
+      Slime1_Walk_full_23: -8818020975958047452
+      Slime1_Walk_full_24: 6970786171637888605
+      Slime1_Walk_full_25: 8466776663280184573
+      Slime1_Walk_full_26: -1621646297129650721
+      Slime1_Walk_full_27: -1659965000773999297
+      Slime1_Walk_full_28: -91003983817682109
+      Slime1_Walk_full_29: 8306591392724562811
+      Slime1_Walk_full_3: -2504203091174464889
+      Slime1_Walk_full_30: 9059869567430870663
+      Slime1_Walk_full_31: -6653709107452621271
+      Slime1_Walk_full_32: -4276645658517217517
+      Slime1_Walk_full_33: -425126159248580964
+      Slime1_Walk_full_34: -4599903245572185768
+      Slime1_Walk_full_35: -640848583091840993
+      Slime1_Walk_full_36: 4709124589533545070
+      Slime1_Walk_full_37: -3646612018298808580
+      Slime1_Walk_full_38: 2343106956053439077
+      Slime1_Walk_full_39: -6044662877453430253
+      Slime1_Walk_full_4: 451884253285811147
+      Slime1_Walk_full_5: -4094901737144760225
+      Slime1_Walk_full_6: 9042856133426918875
+      Slime1_Walk_full_7: 3647275931370200294
+      Slime1_Walk_full_8: -1031846187166423461
+      Slime1_Walk_full_9: 8441388130189826466
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

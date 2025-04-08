@@ -202,6 +202,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -922,7 +935,39 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime_Walk_shadow_0: 292549555343293479
+      Slime_Walk_shadow_1: -5194146368509162589
+      Slime_Walk_shadow_10: -1222574545761923268
+      Slime_Walk_shadow_11: -3847434458416906812
+      Slime_Walk_shadow_12: 8626978061278722155
+      Slime_Walk_shadow_13: -1162202970427492827
+      Slime_Walk_shadow_14: 7861973447730757151
+      Slime_Walk_shadow_15: -3744528239325207291
+      Slime_Walk_shadow_16: -5361944022654466024
+      Slime_Walk_shadow_17: -8456331785204734341
+      Slime_Walk_shadow_18: -6967797289222486845
+      Slime_Walk_shadow_19: -4676104869125584400
+      Slime_Walk_shadow_2: -4022063833822268252
+      Slime_Walk_shadow_20: 3135165535441179039
+      Slime_Walk_shadow_21: -5870545132587260257
+      Slime_Walk_shadow_22: 1689972118463966863
+      Slime_Walk_shadow_23: 8832483365226652504
+      Slime_Walk_shadow_24: -107822213188276593
+      Slime_Walk_shadow_25: -8728448736635942919
+      Slime_Walk_shadow_26: -3728013304367197939
+      Slime_Walk_shadow_27: -845499956529476505
+      Slime_Walk_shadow_28: 1422757922637618075
+      Slime_Walk_shadow_29: 7223023201846560684
+      Slime_Walk_shadow_3: 822020394249779327
+      Slime_Walk_shadow_30: -8865591080106777007
+      Slime_Walk_shadow_31: -7602089720404820540
+      Slime_Walk_shadow_4: 9084818332021931154
+      Slime_Walk_shadow_5: 445480220624138772
+      Slime_Walk_shadow_6: -4126402577828056447
+      Slime_Walk_shadow_7: 3112559111099002699
+      Slime_Walk_shadow_8: -6918099092092054250
+      Slime_Walk_shadow_9: -5752569063290996023
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

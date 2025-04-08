@@ -202,6 +202,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -922,7 +935,39 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime_Run_shadow_0: 2402773825388875298
+      Slime_Run_shadow_1: -1499138789176556505
+      Slime_Run_shadow_10: -182130062858345558
+      Slime_Run_shadow_11: -7250650452031628680
+      Slime_Run_shadow_12: 8260175880164736788
+      Slime_Run_shadow_13: 1501044027108367117
+      Slime_Run_shadow_14: 6105505426196399683
+      Slime_Run_shadow_15: -8609838521531945793
+      Slime_Run_shadow_16: 6828939985590794462
+      Slime_Run_shadow_17: 8471283916683275124
+      Slime_Run_shadow_18: 4936057383011608861
+      Slime_Run_shadow_19: 4409332828475514294
+      Slime_Run_shadow_2: -6682476909672327205
+      Slime_Run_shadow_20: 2009795670769491386
+      Slime_Run_shadow_21: -7626259259120093819
+      Slime_Run_shadow_22: -2648204880187221754
+      Slime_Run_shadow_23: -2479424849929207855
+      Slime_Run_shadow_24: 1807643491434751070
+      Slime_Run_shadow_25: -9118013696402342265
+      Slime_Run_shadow_26: 6583632380804268425
+      Slime_Run_shadow_27: 4981960856552012021
+      Slime_Run_shadow_28: -1154548319877809541
+      Slime_Run_shadow_29: -7732071522307463674
+      Slime_Run_shadow_3: 7869572747977910855
+      Slime_Run_shadow_30: 7931164532492542013
+      Slime_Run_shadow_31: -9145735037979729775
+      Slime_Run_shadow_4: -8121033607940683940
+      Slime_Run_shadow_5: -730908827305469388
+      Slime_Run_shadow_6: 6750956529152299230
+      Slime_Run_shadow_7: 3340456759756324772
+      Slime_Run_shadow_8: -8692685967032435408
+      Slime_Run_shadow_9: 8033308888064930287
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

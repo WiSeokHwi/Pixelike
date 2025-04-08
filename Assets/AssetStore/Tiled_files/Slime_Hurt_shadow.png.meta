@@ -166,6 +166,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -622,7 +635,27 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime_Hurt_shadow_0: 682387861205805526
+      Slime_Hurt_shadow_1: 7129120080042747607
+      Slime_Hurt_shadow_10: -5978603371564788849
+      Slime_Hurt_shadow_11: -3881163706438721331
+      Slime_Hurt_shadow_12: -1278129797040929768
+      Slime_Hurt_shadow_13: 5269741943627533245
+      Slime_Hurt_shadow_14: 4092316373378407122
+      Slime_Hurt_shadow_15: -1169419148423814930
+      Slime_Hurt_shadow_16: 6151355972787381090
+      Slime_Hurt_shadow_17: 9027284024143774500
+      Slime_Hurt_shadow_18: 3356889655737661595
+      Slime_Hurt_shadow_19: 6198271979118455326
+      Slime_Hurt_shadow_2: 2506058162089175326
+      Slime_Hurt_shadow_3: 5412593897306518248
+      Slime_Hurt_shadow_4: -2126610668114998725
+      Slime_Hurt_shadow_5: 7630156556102010001
+      Slime_Hurt_shadow_6: 2857766238390754795
+      Slime_Hurt_shadow_7: -3206723648849530728
+      Slime_Hurt_shadow_8: 1275337547825433312
+      Slime_Hurt_shadow_9: 7595576323651116069
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -217,6 +217,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1047,7 +1060,44 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime3_Hurt_full_0: 7227861339303271231
+      Slime3_Hurt_full_1: 867286704509203226
+      Slime3_Hurt_full_10: 6123909262873631022
+      Slime3_Hurt_full_11: -5382038351283892003
+      Slime3_Hurt_full_12: -9104986935794444378
+      Slime3_Hurt_full_13: 6209007026063255365
+      Slime3_Hurt_full_14: -1706125938481402436
+      Slime3_Hurt_full_15: 3215507808539681051
+      Slime3_Hurt_full_16: -7670217651197611212
+      Slime3_Hurt_full_17: -4397938301843031152
+      Slime3_Hurt_full_18: -4836221526070184845
+      Slime3_Hurt_full_19: 5664470481665055765
+      Slime3_Hurt_full_2: 2532216439675440926
+      Slime3_Hurt_full_20: -6774929118424689428
+      Slime3_Hurt_full_21: -8518928711155384610
+      Slime3_Hurt_full_22: -3051975508771327341
+      Slime3_Hurt_full_23: -6477347375162120821
+      Slime3_Hurt_full_24: -7778046343767599648
+      Slime3_Hurt_full_25: -3083454671468854890
+      Slime3_Hurt_full_26: 4954114085662313578
+      Slime3_Hurt_full_27: 4675340604449634096
+      Slime3_Hurt_full_28: -8179158046096185936
+      Slime3_Hurt_full_29: -3469937976693183949
+      Slime3_Hurt_full_3: 1853758239810880500
+      Slime3_Hurt_full_30: 4518151926706814816
+      Slime3_Hurt_full_31: 7685840476498408743
+      Slime3_Hurt_full_32: 1140624578478326657
+      Slime3_Hurt_full_33: 7551694528868279381
+      Slime3_Hurt_full_34: 5745222666611180153
+      Slime3_Hurt_full_35: 5693747579384665857
+      Slime3_Hurt_full_36: -8168897977943343474
+      Slime3_Hurt_full_4: 2638894837788895006
+      Slime3_Hurt_full_5: 7405128188889516415
+      Slime3_Hurt_full_6: 2083468213277712987
+      Slime3_Hurt_full_7: -2849534445529501639
+      Slime3_Hurt_full_8: 3304452863969575527
+      Slime3_Hurt_full_9: 3878324164667690769
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

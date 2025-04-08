@@ -262,6 +262,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1422,7 +1435,59 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime3_Attack_full_0: 4925974455963049665
+      Slime3_Attack_full_1: -3085638635145342073
+      Slime3_Attack_full_10: 2346074109695077799
+      Slime3_Attack_full_11: 8403486039178882705
+      Slime3_Attack_full_12: 7725569465086483024
+      Slime3_Attack_full_13: -6465902391768766751
+      Slime3_Attack_full_14: -8234586002970784738
+      Slime3_Attack_full_15: -6913401926658843459
+      Slime3_Attack_full_16: 9090838363721530312
+      Slime3_Attack_full_17: 4446173949967720501
+      Slime3_Attack_full_18: 7804005253724362684
+      Slime3_Attack_full_19: 3528327609949984378
+      Slime3_Attack_full_2: 7414031341453228586
+      Slime3_Attack_full_20: -7619424465786491979
+      Slime3_Attack_full_21: -1739970762218639680
+      Slime3_Attack_full_22: 7524034520268265458
+      Slime3_Attack_full_23: 663661857561193815
+      Slime3_Attack_full_24: -1253182486025086647
+      Slime3_Attack_full_25: 8304738514026998322
+      Slime3_Attack_full_26: 4258989332886125012
+      Slime3_Attack_full_27: 2985711011967963458
+      Slime3_Attack_full_28: -5699294302724523271
+      Slime3_Attack_full_29: -5504751368481178178
+      Slime3_Attack_full_3: 557030152742878827
+      Slime3_Attack_full_30: 8307421151269431855
+      Slime3_Attack_full_31: 7624781754285027843
+      Slime3_Attack_full_32: -3765968619744198034
+      Slime3_Attack_full_33: -3855510098466716463
+      Slime3_Attack_full_34: -4622716309303278562
+      Slime3_Attack_full_35: -6138640517651820499
+      Slime3_Attack_full_36: -845158571900957125
+      Slime3_Attack_full_37: 27793791486290867
+      Slime3_Attack_full_38: 8070626672819141
+      Slime3_Attack_full_39: -4817306696655290745
+      Slime3_Attack_full_4: 58233631608734135
+      Slime3_Attack_full_40: -3348327178305089470
+      Slime3_Attack_full_41: 5726216324675901786
+      Slime3_Attack_full_42: 5198958046758648339
+      Slime3_Attack_full_43: -5106014331986736373
+      Slime3_Attack_full_44: 5875112341764296652
+      Slime3_Attack_full_45: 6168197324826074532
+      Slime3_Attack_full_46: -7302576949227077322
+      Slime3_Attack_full_47: 3471350949249601448
+      Slime3_Attack_full_48: 4149875187809280630
+      Slime3_Attack_full_49: 8136709726807681151
+      Slime3_Attack_full_5: -5832120424339248669
+      Slime3_Attack_full_50: -2714560193171864806
+      Slime3_Attack_full_51: -6316104097785024976
+      Slime3_Attack_full_6: -6391097960361417470
+      Slime3_Attack_full_7: 2058672997984304047
+      Slime3_Attack_full_8: 323137182500669888
+      Slime3_Attack_full_9: -6071712988335738143
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

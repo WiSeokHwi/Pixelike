@@ -178,6 +178,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -722,7 +735,31 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime_Idle_shadow_0: -2599356155375842691
+      Slime_Idle_shadow_1: 5319591634172558776
+      Slime_Idle_shadow_10: 1678149256422124984
+      Slime_Idle_shadow_11: -1264298132299177313
+      Slime_Idle_shadow_12: 2377466654678389616
+      Slime_Idle_shadow_13: -961778135688278748
+      Slime_Idle_shadow_14: -2421314469278612371
+      Slime_Idle_shadow_15: -8815580085374222343
+      Slime_Idle_shadow_16: 5459178356639934557
+      Slime_Idle_shadow_17: 5401027253187124010
+      Slime_Idle_shadow_18: 1110379020279391434
+      Slime_Idle_shadow_19: -866471532892054085
+      Slime_Idle_shadow_2: -1673078813727463776
+      Slime_Idle_shadow_20: -3413579454108518701
+      Slime_Idle_shadow_21: 1048198128422448657
+      Slime_Idle_shadow_22: 5040913202492398087
+      Slime_Idle_shadow_23: 2076671456658955152
+      Slime_Idle_shadow_3: 4082819199890271342
+      Slime_Idle_shadow_4: 2601442510835440104
+      Slime_Idle_shadow_5: -6370382928310124825
+      Slime_Idle_shadow_6: 4988177451462930977
+      Slime_Idle_shadow_7: -1108165369092235721
+      Slime_Idle_shadow_8: -8285295803527392515
+      Slime_Idle_shadow_9: 414957851558681954
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -190,6 +190,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -822,7 +835,35 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime1_Hurt_full_0: -6628058897153280068
+      Slime1_Hurt_full_1: -7242281903265138765
+      Slime1_Hurt_full_10: -4901040653196236931
+      Slime1_Hurt_full_11: 3995412544489358390
+      Slime1_Hurt_full_12: -3763285581244892111
+      Slime1_Hurt_full_13: -5853921677128641054
+      Slime1_Hurt_full_14: -7967422925441023960
+      Slime1_Hurt_full_15: 7947651460279803187
+      Slime1_Hurt_full_16: -2601196968224525437
+      Slime1_Hurt_full_17: 298952005749337267
+      Slime1_Hurt_full_18: -2497030925836536157
+      Slime1_Hurt_full_19: 6361225188639110788
+      Slime1_Hurt_full_2: 2690959153432485087
+      Slime1_Hurt_full_20: -5707037128521119251
+      Slime1_Hurt_full_21: -9082465325227164806
+      Slime1_Hurt_full_22: 2315663017624910624
+      Slime1_Hurt_full_23: -2443521742516532069
+      Slime1_Hurt_full_24: 1108204724439386331
+      Slime1_Hurt_full_25: -8863344368747784539
+      Slime1_Hurt_full_26: 6428578271956726663
+      Slime1_Hurt_full_27: -2531895590288105508
+      Slime1_Hurt_full_3: 8346277705838263279
+      Slime1_Hurt_full_4: 6107351769626708933
+      Slime1_Hurt_full_5: -6728424941516333485
+      Slime1_Hurt_full_6: -7605853100028119859
+      Slime1_Hurt_full_7: 7376836348489303792
+      Slime1_Hurt_full_8: -5914527306911614227
+      Slime1_Hurt_full_9: 9183043488860009537
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

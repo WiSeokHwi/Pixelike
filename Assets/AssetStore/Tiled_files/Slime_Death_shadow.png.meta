@@ -226,6 +226,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1122,7 +1135,47 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime_Death_shadow_0: 5148035222139736727
+      Slime_Death_shadow_1: -6594526849180201193
+      Slime_Death_shadow_10: -5685318076063821482
+      Slime_Death_shadow_11: -1135696223253137023
+      Slime_Death_shadow_12: 3846897783375595773
+      Slime_Death_shadow_13: 6179494700405841255
+      Slime_Death_shadow_14: 668344460940660995
+      Slime_Death_shadow_15: 5199451462089491557
+      Slime_Death_shadow_16: 2292129970225765780
+      Slime_Death_shadow_17: 3261709970994840739
+      Slime_Death_shadow_18: 1558538981528262283
+      Slime_Death_shadow_19: 6808345717215406835
+      Slime_Death_shadow_2: 4883382596112502997
+      Slime_Death_shadow_20: 1084463018365200997
+      Slime_Death_shadow_21: -2428180149885700335
+      Slime_Death_shadow_22: 4433615537597643013
+      Slime_Death_shadow_23: 6134848743698067210
+      Slime_Death_shadow_24: 3735260343006476934
+      Slime_Death_shadow_25: -6665664513771929513
+      Slime_Death_shadow_26: 245595915647726439
+      Slime_Death_shadow_27: 6282606384664171804
+      Slime_Death_shadow_28: -5112302020340703570
+      Slime_Death_shadow_29: 5758690714340092165
+      Slime_Death_shadow_3: 9208246153441336592
+      Slime_Death_shadow_30: -3008305167365116934
+      Slime_Death_shadow_31: 4304058638730420841
+      Slime_Death_shadow_32: -5771158860536509531
+      Slime_Death_shadow_33: 4551506779433447134
+      Slime_Death_shadow_34: -7255778748926316307
+      Slime_Death_shadow_35: -8025327410504168892
+      Slime_Death_shadow_36: -2837423575190146506
+      Slime_Death_shadow_37: 7434825945161984851
+      Slime_Death_shadow_38: 8204747503517067805
+      Slime_Death_shadow_39: 5360719131164192700
+      Slime_Death_shadow_4: -165905324286440032
+      Slime_Death_shadow_5: 1880462459775188575
+      Slime_Death_shadow_6: 5832656401354051208
+      Slime_Death_shadow_7: -539500216479183329
+      Slime_Death_shadow_8: 4739822154784743767
+      Slime_Death_shadow_9: -5189632469537982183
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

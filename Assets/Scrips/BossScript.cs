@@ -1,93 +1,206 @@
-﻿using Mono.Cecil;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
+using Unity.AI;
+using UnityEngine.AI;
+using UnityEngine.EventSystems;
+using System.Collections;
+using UnityEngine.UIElements;
 
-public class BossScript : MonoBehaviour
+public enum BossState
 {
-    public float moveSpeed = 1f; // 이동 속도
+    Idle,
+    Chasing,
+    Attacking // 선택사항
+}
 
-    private int phase = 0; // 보스의 현재 단계
+public class BossFSMController : MonoBehaviour
+{
+    public float moveSpeed = 1f;
+    public Vector2 rayBoxSize = new Vector2(2.5f, 2.5f);
+    public float castPadding = 0.5f;
+    public float hitPadding = 2f;
+    public float detectRange = 4f;
+    public float attackRange = 3f;
+    private bool isattacking = false;
+    public LayerMask playerLayer;
 
-    private Vector2 targetPosition; // 목표 위치
-
-    private Animator animator;
+    private BossState currentState = BossState.Idle;
+    private Transform Player;
     private Rigidbody2D rb;
-    private Collider2D mycollider;
-    private GameObject Player;
-    private Vector2 rayBoxSize = new Vector2(2f, 2f); // 레이캐스트 박스 크기
-    private float castPadding = 0.5f; // 레이캐스트 패딩
-    private float hitPadding = 5f; // 히트 패딩
+    private float stateTimer = 0f;
+    private NavMeshAgent navMeshAgent;
+    private Animator animator;
+    private Vector2 patrolAreaSize = new Vector2(10f,10f);
+    private Vector2 PatolPosition;
+    private Vector2 randomDestination;
+    Collider2D Hit;
+
 
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        mycollider = GetComponent<Collider2D>();
-        Player = GameObject.FindWithTag ("Player");
-    }
-    void Start()
-    {
-        targetPosition = Player.transform.position;
+        Setup(Player);
+        PatolPosition = rb.transform.position;
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Setup(Transform Player)
     {
+        this.Player = Player;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
+    }
+
+    private void Update()
+    {
+        Hit = Physics2D.OverlapCircle(transform.position, detectRange, playerLayer);
         if (Player == null)
         {
-            Player = GameObject.FindWithTag("Player");
+            Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         }
-        FindTarget(targetPosition);
-    }
-
-    private void MoveTo(Vector2 target)
-    {
-        rb.linearVelocity = (target - (Vector2)transform.position).normalized * moveSpeed;
-    }
-
-    private void FindTarget(Vector2 target)
-    {
-        
-        
-        Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-        float distance = Vector2.Distance(transform.position, targetPosition) - castPadding;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, rayBoxSize, angle, direction, distance, LayerMask.GetMask("Wall"));
-        if (!hit.collider)
+        if (navMeshAgent == null)
         {
-            // 장애물이 없으면 목표 위치로 이동
-            targetPosition = Player.transform.position;
+            Debug.Log("나브메쉬가없다");
+            return;
+        }
+        Debug.Log(isattacking);
+        if (!isattacking)
+        {
+            animator.SetFloat("Horizontal", navMeshAgent.velocity.x);
+            animator.SetFloat("Vertical", navMeshAgent.velocity.y);
         }
         else
         {
-            // 장애물이 있으면 목표 위치를 변경
-            targetPosition = (Vector2)Player.transform.position + (Vector2)hit.normal * hitPadding;
-            Debug.DrawLine(targetPosition - Vector2.one * 1f, targetPosition + Vector2.one * 1f, Color.red, 5f);
+            animator.SetFloat("Horizontal", rb.linearVelocity.x);
+            animator.SetFloat("Vertical", rb.linearVelocity.y);
         }
-        MoveTo(targetPosition);
+        
+
+        switch (currentState)
+        {
+            case BossState.Idle:
+                HandleIdleState();
+                break;
+            case BossState.Chasing:
+                HandleChasingState();
+                break;
+            case BossState.Attacking:
+                HandleAttackingState();
+                break;
+        }
+    }
+
+    void MoveTo(Vector2 target)
+    {
+        if (isattacking) return;
+
+        navMeshAgent.SetDestination(target);
+        if (navMeshAgent.velocity.magnitude != 0)
+        {
+            animator.SetBool("isMove", true);
+        }
+        else
+        {
+            animator.SetBool("isMove", false);
+        }
+    }
+
+    void HandleIdleState()
+    {
+        
+        if (Hit)
+        {
+            currentState = BossState.Chasing;
+            stateTimer = 0f;
+        }
+        else
+        {
+            stateTimer += Time.deltaTime;
+
+            if (stateTimer >= 3f)
+            {
+                StartCoroutine(Patrol());
+                stateTimer = 0f; // 다시 초기화해서 3초 간격 유지
+                PatolPosition = transform.position;
+            }
+        }
+    }
+    IEnumerator Patrol()
+    {
+
+        randomDestination = PatolPosition + new Vector2(Random.Range(-patrolAreaSize.x / 2f, patrolAreaSize.x / 2f), Random.Range(-patrolAreaSize.y / 2f, patrolAreaSize.y / 2f));
+        Debug.DrawRay(randomDestination - Vector2.one * 0.2f, randomDestination + Vector2.one * 0.2f, Color.red, 5f);
+        yield return new WaitForSeconds(Random.Range(4f, 8f));
+
+        MoveTo(randomDestination);
+
 
     }
 
-    void OnDrawGizmos()
+    void HandleChasingState()
+    {
+        Collider2D attackRangeCol = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
+
+        if (attackRangeCol && !isattacking)
+        {
+            stateTimer += Time.deltaTime;
+
+            if(stateTimer > Random.Range(1f, 5f))
+            {
+                isattacking = true;
+                currentState = BossState.Attacking;
+                stateTimer = 0f;
+            }
+            
+        }
+        else
+        {
+            stateTimer = 0f;
+        }
+
+
+        MoveTo(Player.position);
+        if (!Hit)
+        {
+            stateTimer += Time.deltaTime;
+
+            if (stateTimer >= 3f)
+            {
+                currentState = BossState.Idle;
+                stateTimer = 0f;
+            }
+        }
+    }
+
+
+    void HandleAttackingState()
+    {
+        StartCoroutine(Attack1());
+    }
+
+    IEnumerator Attack1()
+    {
+        rb.linearVelocity = Vector2.zero;
+        yield return new WaitForSeconds(1f);
+        animator.SetTrigger("isDash");
+        rb.AddForce((Player.position - transform.position).normalized * 3f);
+        yield return new WaitForSeconds(2f);
+        isattacking = false;
+        currentState = BossState.Idle;
+
+    }
+    
+
+    private void OnDrawGizmos()
     {
         if (Player == null) return;
 
-        Vector2 origin = transform.position;
-        Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-        float distance = Vector2.Distance(transform.position, targetPosition) - castPadding;
-        Vector2 castBoxSize = rayBoxSize; // 실제 사용되는 크기 그대로
-        // 중심 좌표 계산
-        Vector2 center = origin + direction * distance * 0.5f;
-        // 회전 각도 계산 (방향 → 각도로 변환)
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        // 전체 길이만큼 박스 크기 확장 (가로 또는 세로로)
-        Vector2 fullBoxSize = new Vector2(distance, castBoxSize.y); // 방향 따라 바꿔도 됨
-        // 기즈모 색
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectRange);
         Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 0, angle), Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, fullBoxSize);
-        //Gizmos.matrix = Matrix4x4.identity;
+        Gizmos.DrawWireCube(PatolPosition, patrolAreaSize);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
-

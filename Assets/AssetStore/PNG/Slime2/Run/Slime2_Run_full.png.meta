@@ -298,6 +298,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1722,7 +1735,71 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime2_Run_full_0: -906886396381003607
+      Slime2_Run_full_1: -4231567803678192100
+      Slime2_Run_full_10: -2533414094456600457
+      Slime2_Run_full_11: 6212580845329480382
+      Slime2_Run_full_12: -8531829182364361574
+      Slime2_Run_full_13: 6545219014368736572
+      Slime2_Run_full_14: 4781335939167381599
+      Slime2_Run_full_15: 7952136951148086762
+      Slime2_Run_full_16: -163678747977052646
+      Slime2_Run_full_17: -7031411402662374285
+      Slime2_Run_full_18: -4069518029327347767
+      Slime2_Run_full_19: -7132153015263864169
+      Slime2_Run_full_2: -3540686103444170169
+      Slime2_Run_full_20: -8174386703992382441
+      Slime2_Run_full_21: -8461870289106036619
+      Slime2_Run_full_22: 6418274007530085707
+      Slime2_Run_full_23: -3533855963447533034
+      Slime2_Run_full_24: 6350776275793017560
+      Slime2_Run_full_25: 3809201584791725559
+      Slime2_Run_full_26: -5839239128034819799
+      Slime2_Run_full_27: 4741349564755744045
+      Slime2_Run_full_28: -1375103111054886527
+      Slime2_Run_full_29: -3398724985504272110
+      Slime2_Run_full_3: 3496402587774991108
+      Slime2_Run_full_30: -2500062617128593871
+      Slime2_Run_full_31: 4670410760601216155
+      Slime2_Run_full_32: 2891796063950711261
+      Slime2_Run_full_33: 1075136535910276970
+      Slime2_Run_full_34: 7671896394891102520
+      Slime2_Run_full_35: 4761299864212721594
+      Slime2_Run_full_36: 5826100552921503101
+      Slime2_Run_full_37: -4425494180557249958
+      Slime2_Run_full_38: -7992028455185146879
+      Slime2_Run_full_39: -4288532285777737714
+      Slime2_Run_full_4: -248501667050996841
+      Slime2_Run_full_40: 6549750671228458692
+      Slime2_Run_full_41: -2987982368757266013
+      Slime2_Run_full_42: -7015080337922717832
+      Slime2_Run_full_43: -8106102335490275664
+      Slime2_Run_full_44: 1511035527161836950
+      Slime2_Run_full_45: 7385066918179129803
+      Slime2_Run_full_46: -2000115133687441627
+      Slime2_Run_full_47: -2548659737348038060
+      Slime2_Run_full_48: -8442298177248642550
+      Slime2_Run_full_49: 8491602234075863598
+      Slime2_Run_full_5: -6900407953436663113
+      Slime2_Run_full_50: 5091965395498342689
+      Slime2_Run_full_51: -4051139740549821500
+      Slime2_Run_full_52: -1290971964945894801
+      Slime2_Run_full_53: -3640315096543319409
+      Slime2_Run_full_54: 4950504838227628163
+      Slime2_Run_full_55: -7881056400346524067
+      Slime2_Run_full_56: 835517859794508467
+      Slime2_Run_full_57: -1654894883052869357
+      Slime2_Run_full_58: 836936570088391762
+      Slime2_Run_full_59: -5533755911499065255
+      Slime2_Run_full_6: -67405351460735940
+      Slime2_Run_full_60: -6449877490447339759
+      Slime2_Run_full_61: -4493489026118341648
+      Slime2_Run_full_62: 6150925809104888914
+      Slime2_Run_full_63: 2916504983408767018
+      Slime2_Run_full_7: -3305992179917035609
+      Slime2_Run_full_8: 8055823513301235257
+      Slime2_Run_full_9: -4297990993475181614
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -214,6 +214,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1022,7 +1035,43 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime3_Idle_full_0: 3726720421939613768
+      Slime3_Idle_full_1: -7575156832823409152
+      Slime3_Idle_full_10: -8884765349071741268
+      Slime3_Idle_full_11: 683361487828634583
+      Slime3_Idle_full_12: 360137151652635274
+      Slime3_Idle_full_13: 2517562639476491599
+      Slime3_Idle_full_14: 7243589310175137723
+      Slime3_Idle_full_15: -4723717024443856536
+      Slime3_Idle_full_16: 5687990843098327800
+      Slime3_Idle_full_17: 1255641073154761191
+      Slime3_Idle_full_18: -2086738899618467211
+      Slime3_Idle_full_19: -454426866862880209
+      Slime3_Idle_full_2: 164013634832119470
+      Slime3_Idle_full_20: 3019139615600551326
+      Slime3_Idle_full_21: -8753376585281449174
+      Slime3_Idle_full_22: 8157100411731104415
+      Slime3_Idle_full_23: -3206739749510577932
+      Slime3_Idle_full_24: -8965178840228210792
+      Slime3_Idle_full_25: 1137372503337524250
+      Slime3_Idle_full_26: 5246151976994369184
+      Slime3_Idle_full_27: -2059954066771330483
+      Slime3_Idle_full_28: 2839058565501314569
+      Slime3_Idle_full_29: -5217075800699160287
+      Slime3_Idle_full_3: -8669039094995748535
+      Slime3_Idle_full_30: -8938378450963772742
+      Slime3_Idle_full_31: -7649595893143005296
+      Slime3_Idle_full_32: 613971652737736044
+      Slime3_Idle_full_33: -8624682702324374724
+      Slime3_Idle_full_34: -67521228392698149
+      Slime3_Idle_full_35: 8592408314140818728
+      Slime3_Idle_full_4: 8446554743841262902
+      Slime3_Idle_full_5: 8173544964245154972
+      Slime3_Idle_full_6: 1047303386538610249
+      Slime3_Idle_full_7: 6246904074165524361
+      Slime3_Idle_full_8: -5583655484898428775
+      Slime3_Idle_full_9: 8670882997968458962
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
