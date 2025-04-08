@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     public float dashSpeed = 8f;
     bool isAttack = false;
     bool isHit = false;
+    bool isHitMove = false;
     public bool isDead = false;
     Vector2 HVZ;
 
@@ -82,6 +83,7 @@ public class Player : MonoBehaviour
         {
             dashingTime += Time.deltaTime; // 대시 타이머 증가
         }
+        if (isAttack || dashing || isHitMove) return;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && isDash == false && moveInput != Vector2.zero)
         {
@@ -148,8 +150,8 @@ public class Player : MonoBehaviour
         else if (Input.GetKey(KeyCode.D)) horizontal += 1;
         
         moveInput = (horizontal * Vector2.right + vertical * Vector2.up).normalized;
-        if (isAttack == true || dashing == true) return;
-
+        if (isAttack || dashing || isHitMove) return;
+        Debug.Log("이동 가능!");
         myRigidbody.linearVelocity = moveInput * Speed;
         //myAnimator.SetFloat("Speed", myRigidbody.linearVelocity.magnitude);
     }
@@ -191,6 +193,7 @@ public class Player : MonoBehaviour
     }
     public IEnumerator Attack()
     {
+        
         myAnimator.SetTrigger("A");
         isAttack = true;
         myAnimator.SetFloat("AHZ", HVZ.x);
@@ -204,7 +207,7 @@ public class Player : MonoBehaviour
             enemy.hit(Damage, transform.position);
         }
         yield return new WaitForSeconds(0.4f);
-
+        
         myAnimator.SetFloat("AHZ", 0);
         myAnimator.SetFloat("AVZ", 0);
 
@@ -233,6 +236,10 @@ public class Player : MonoBehaviour
             Damage += 0.5f;
             Destroy(collision.gameObject);
         }
+        if (collision.gameObject.CompareTag("Enemy") && !isHit)
+        {
+            StartCoroutine(Hit(collision.transform));
+        }
     }
 
 
@@ -247,12 +254,18 @@ public class Player : MonoBehaviour
         }
         myAnimator.SetTrigger("Hit");
         isHit = true;
-        Vector2 knockBackDirection = (transform.position - enemyTransForm.position).normalized;
+        isHitMove = true;
         myRigidbody.linearVelocity = Vector2.zero;
+        Vector2 knockBackDirection = (transform.position - enemyTransForm.position).normalized;
+        myRigidbody.linearVelocity = knockBackDirection * 3f;
         if (isDead == true) yield break;
         myRigidbody.AddForce(knockBackDirection * 2f, ForceMode2D.Impulse);
         StartCoroutine(BlinkEffect());
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+        isHitMove = false;
+        myRigidbody.linearVelocity = Vector2.zero;
+        yield return new WaitForSeconds(1.0f);
+
         isHit = false;
     }
 

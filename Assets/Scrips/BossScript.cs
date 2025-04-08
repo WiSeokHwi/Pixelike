@@ -20,6 +20,8 @@ public class BossFSMController : MonoBehaviour
     public float hitPadding = 2f;
     public float detectRange = 4f;
     public float attackRange = 3f;
+    public GameObject attackRangeIndicator;
+
     private bool isattacking = false;
     public LayerMask playerLayer;
 
@@ -64,7 +66,7 @@ public class BossFSMController : MonoBehaviour
             Debug.Log("나브메쉬가없다");
             return;
         }
-        Debug.Log(isattacking);
+        
         if (!isattacking)
         {
             animator.SetFloat("Horizontal", navMeshAgent.velocity.x);
@@ -75,6 +77,7 @@ public class BossFSMController : MonoBehaviour
             animator.SetFloat("Horizontal", rb.linearVelocity.x);
             animator.SetFloat("Vertical", rb.linearVelocity.y);
         }
+
         
 
         switch (currentState)
@@ -146,9 +149,8 @@ public class BossFSMController : MonoBehaviour
         {
             stateTimer += Time.deltaTime;
 
-            if(stateTimer > Random.Range(1f, 5f))
+            if(stateTimer > Random.Range(3f, 10f))
             {
-                isattacking = true;
                 currentState = BossState.Attacking;
                 stateTimer = 0f;
             }
@@ -176,19 +178,66 @@ public class BossFSMController : MonoBehaviour
 
     void HandleAttackingState()
     {
-        StartCoroutine(Attack1());
+        int rand = Random.Range(0, 100);
+        if (!isattacking)
+        {
+            isattacking = true;
+
+            switch (rand)
+            {
+                case < 50:
+                    StartCoroutine(Attack2());
+                    break;
+                case >= 50:
+                    StartCoroutine(Attack1());
+                    break;
+            }
+        }
+
+
     }
 
     IEnumerator Attack1()
     {
         rb.linearVelocity = Vector2.zero;
-        yield return new WaitForSeconds(1f);
+        navMeshAgent.velocity = Vector3.zero;
+        navMeshAgent.enabled = false;
+        Vector2 dashDir = (Player.position - transform.position).normalized;
+        yield return new WaitForSeconds(0.5f);
         animator.SetTrigger("isDash");
-        rb.AddForce((Player.position - transform.position).normalized * 3f);
-        yield return new WaitForSeconds(2f);
-        isattacking = false;
-        currentState = BossState.Idle;
 
+        rb.AddForce(dashDir * 20f, ForceMode2D.Impulse);
+        Debug.Log(rb.linearVelocity);
+        stateTimer = 0;
+        yield return new WaitUntil(() => { stateTimer += Time.deltaTime; return stateTimer >= 1f;});
+
+        rb.linearVelocity = Vector2.zero;
+        yield return new WaitForSeconds(2f);
+        rb.linearDamping = 0f;
+        stateTimer = 0f;
+        isattacking = false;
+        navMeshAgent.enabled = true;
+        currentState = BossState.Chasing;
+    }
+
+    IEnumerator Attack2()
+    {
+        
+        rb.linearVelocity = Vector2.zero;
+        navMeshAgent.velocity = Vector3.zero;
+        navMeshAgent.enabled = false;
+        attackRangeIndicator.GetComponent<Collider2D>().enabled = false;
+        attackRangeIndicator.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        animator.SetTrigger("isAttack");
+        attackRangeIndicator.GetComponent<Collider2D>().enabled = true;
+        yield return new WaitForSeconds(1f);
+        attackRangeIndicator.SetActive(false);
+        attackRangeIndicator.GetComponent<Collider2D>().enabled = false;
+        yield return new WaitForSeconds(1f);
+        navMeshAgent.enabled = true;
+        isattacking = false;
+        currentState = BossState.Chasing;
     }
     
 
