@@ -6,7 +6,7 @@ public class RedSlime : EnemyCTRL
     protected override void Awake()
     {
         base.Awake();
-        maxHealth = 20f; // 슬라임2는 체력 30
+        MaxHealth = 20f; // 슬라임2는 체력 30
         moveSpeed = 1.5f;
     }
 

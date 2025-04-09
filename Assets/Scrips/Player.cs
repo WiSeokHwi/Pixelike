@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     SpriteRenderer mySpriteRenderer;
     public LayerMask enemyLayer;
     public int MaxHealth { get; private set; }
-    private int health;
+    public int health;
     public int Health
     {
         get { return health; }
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
             OnHealthChanged?.Invoke(); // 체력이 변경될 때마다 이벤트 호출
         }
     }
-    private float attackRange = 1f;
+    private float attackRange = 2f;
     public float Speed = 2.0f;
     public float damage
     {
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         
         }
     }
-    public float Damage = 1.0f;
+    public float Damage ;
     Vector2 moveInput;
     bool isDash = false;
     bool dashing = false;
@@ -53,13 +53,16 @@ public class Player : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         SpriteRenderer mySpriteRenderer = GetComponent<SpriteRenderer>();
-
+        
 
     }
     void Start()
     {
         MaxHealth = 3;
-        Health = MaxHealth;
+        
+        Damage = GameManager.Instance.playerDamage;
+        MaxHealth = GameManager.Instance.playerMaxHealth;
+        Health = GameManager.Instance.playerHealth;
         isDead = false;
         dashingTime = dashCoolTime;
     }
@@ -78,12 +81,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-
+        Debug.Log(isAttack);
+        Debug.Log(isDash);
+        Debug.Log(isHitMove);
         if (dashingTime < dashCoolTime)
         {
             dashingTime += Time.deltaTime; // 대시 타이머 증가
         }
-        if (isAttack || dashing || isHitMove) return;
+        
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && isDash == false && moveInput != Vector2.zero)
         {
@@ -203,8 +208,21 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         if (hit)
         {
+            // 먼저 EnemyCTRL 시도
             EnemyCTRL enemy = hit.collider.GetComponent<EnemyCTRL>();
-            enemy.hit(Damage, transform.position);
+            if (enemy != null)
+            {
+                enemy.hit(Damage, transform.position);
+            }
+            else
+            {
+                // EnemyCTRL이 없다면 BossFSMController 시도
+                BossFSMController boss = hit.collider.GetComponent<BossFSMController>();
+                if (boss != null)
+                {
+                    boss.hit(Damage, hit.transform.position);  
+                }
+            }
         }
         yield return new WaitForSeconds(0.4f);
         
@@ -221,7 +239,7 @@ public class Player : MonoBehaviour
         if(isDead) return;
         if (collision.gameObject.CompareTag("Enemy") && !isHit)
         {
-            StartCoroutine(Hit(collision.transform));
+            Hit(collision.transform);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -238,35 +256,54 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Enemy") && !isHit)
         {
-            StartCoroutine(Hit(collision.transform));
+            Hit(collision.transform);
+        }
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Potal"))
+        {
+            float stateTimer = 0f;
+            while(stateTimer < 3f)
+            {
+                stateTimer += Time.deltaTime;
+                if (stateTimer >= 3f)
+                {
+                    SceneManager.LoadScene(1);
+                    break;
+                }
+            }
         }
     }
 
 
-    IEnumerator Hit(Transform enemyTransForm)
+    void Hit(Transform enemyTransForm)
     {
-        
+        float stateTimer = 0f;
         Health -= 1;
         if (Health <= 0)
         {
             StartCoroutine(Death());
-            yield break;
         }
         myAnimator.SetTrigger("Hit");
         isHit = true;
         isHitMove = true;
+        isAttack = false;
         myRigidbody.linearVelocity = Vector2.zero;
         Vector2 knockBackDirection = (transform.position - enemyTransForm.position).normalized;
         myRigidbody.linearVelocity = knockBackDirection * 3f;
-        if (isDead == true) yield break;
+        
         myRigidbody.AddForce(knockBackDirection * 2f, ForceMode2D.Impulse);
         StartCoroutine(BlinkEffect());
-        yield return new WaitForSeconds(0.5f);
         isHitMove = false;
-        myRigidbody.linearVelocity = Vector2.zero;
-        yield return new WaitForSeconds(1.0f);
-
-        isHit = false;
+        while (stateTimer < 1.5f)
+        {
+            stateTimer += Time.deltaTime;
+            if (stateTimer >= 1.5f)
+            {
+                isHit = false;
+                myRigidbody.linearVelocity = Vector2.zero;
+                stateTimer = 0f;
+                break;
+            }
+        }
     }
 
     IEnumerator BlinkEffect()
@@ -295,6 +332,15 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         // 게임 오버 처리
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnDestroy()
+    {
+        if (!isDead)
+        {
+            GameManager.Instance.playerHealth = this.Health;
+            GameManager.Instance.playerDamage = this.Damage;
+        }
     }
 
     private void OnDrawGizmos()

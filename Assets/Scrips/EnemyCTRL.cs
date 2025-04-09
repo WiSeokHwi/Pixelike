@@ -8,15 +8,17 @@ using TMPro;
 using static UnityEngine.UI.Image;
 
 
-public class EnemyCTRL : MonoBehaviour
+public class EnemyCTRL : MonoBehaviour, IEnemy
 {
-    public float maxHealth = 10f;               // 체력
+    public float MaxHealth = 10f;               // 체력
     public float Health;                       // 현재 체력
     public float moveSpeed = 1f;            // 이동 속도
     public float detectionRange = 5f;       // 플레이어 감지 범위
     public float lostPlayerChaseTime = 5f;  // 마지막 감지 위치까지 쫓는 시간
     private Vector2 rayBoxSize = new Vector2(1.5f, 1.5f); // 레이캐스트 박스 크기
 
+    float IEnemy.Health => Health;
+    float IEnemy.MaxHealth => MaxHealth;
 
     public LayerMask playerLayer;           // 플레이어 레이어
     public LayerMask obstacleLayer;         // 장애물(벽) 레이어
@@ -56,7 +58,7 @@ public class EnemyCTRL : MonoBehaviour
     {
         PatolPosition = rb.position;
         StartCoroutine(Patrol());
-        Health = maxHealth;
+        Health = MaxHealth;
         isDead = false;
         rb.GetComponent<Collider2D>().enabled = true;
 

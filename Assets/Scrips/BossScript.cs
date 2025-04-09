@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using System.Collections;
 using UnityEngine.UIElements;
+//using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public enum BossState
 {
@@ -12,7 +13,7 @@ public enum BossState
     Attacking // 선택사항
 }
 
-public class BossFSMController : MonoBehaviour
+public class BossFSMController : MonoBehaviour, IEnemy
 {
     public float moveSpeed = 1f;
     public Vector2 rayBoxSize = new Vector2(2.5f, 2.5f);
@@ -20,7 +21,14 @@ public class BossFSMController : MonoBehaviour
     public float hitPadding = 2f;
     public float detectRange = 4f;
     public float attackRange = 3f;
+    public float MaxHealth = 250f;
+    public float Health;
+
+    // IEnemy 프로퍼티 구현
+    float IEnemy.Health => Health;
+    float IEnemy.MaxHealth => MaxHealth;
     public GameObject attackRangeIndicator;
+    public GameObject hitEffectPrefab;
 
     private bool isattacking = false;
     public LayerMask playerLayer;
@@ -32,7 +40,7 @@ public class BossFSMController : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Animator animator;
     private Vector2 patrolAreaSize = new Vector2(10f,10f);
-    private Vector2 PatolPosition;
+    private Vector2 PatrolPosition;
     private Vector2 randomDestination;
     Collider2D Hit;
 
@@ -41,9 +49,11 @@ public class BossFSMController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        
         Setup(Player);
-        PatolPosition = rb.transform.position;
+        PatrolPosition = rb.transform.position;
         animator = GetComponent<Animator>();
+        Health = MaxHealth;
     }
 
     public void Setup(Transform Player)
@@ -125,14 +135,14 @@ public class BossFSMController : MonoBehaviour
             {
                 StartCoroutine(Patrol());
                 stateTimer = 0f; // 다시 초기화해서 3초 간격 유지
-                PatolPosition = transform.position;
+                PatrolPosition = transform.position;
             }
         }
     }
     IEnumerator Patrol()
     {
 
-        randomDestination = PatolPosition + new Vector2(Random.Range(-patrolAreaSize.x / 2f, patrolAreaSize.x / 2f), Random.Range(-patrolAreaSize.y / 2f, patrolAreaSize.y / 2f));
+        randomDestination = PatrolPosition + new Vector2(Random.Range(-patrolAreaSize.x / 2f, patrolAreaSize.x / 2f), Random.Range(-patrolAreaSize.y / 2f, patrolAreaSize.y / 2f));
         Debug.DrawRay(randomDestination - Vector2.one * 0.2f, randomDestination + Vector2.one * 0.2f, Color.red, 5f);
         yield return new WaitForSeconds(Random.Range(4f, 8f));
 
@@ -162,7 +172,7 @@ public class BossFSMController : MonoBehaviour
         }
 
 
-        MoveTo(Player.position);
+        MoveTo(Player.transform.position);
         if (!Hit)
         {
             stateTimer += Time.deltaTime;
@@ -202,7 +212,7 @@ public class BossFSMController : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         navMeshAgent.velocity = Vector3.zero;
         navMeshAgent.enabled = false;
-        Vector2 dashDir = (Player.position - transform.position).normalized;
+        Vector2 dashDir = (Player.transform.position - transform.position).normalized;
         yield return new WaitForSeconds(0.5f);
         animator.SetTrigger("isDash");
 
@@ -239,7 +249,25 @@ public class BossFSMController : MonoBehaviour
         isattacking = false;
         currentState = BossState.Chasing;
     }
-    
+    public void hit(float damage,Vector2 attakPosition)
+    {
+        Health -= damage;
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, attakPosition, Quaternion.identity);
+        }
+        if (Health <= 0)
+        {
+            Health = 0;
+            navMeshAgent.enabled = false;
+            attackRangeIndicator.GetComponent<Collider2D>().enabled = false;
+            animator.SetTrigger("isDead");
+            Destroy(gameObject, 2f);
+        }
+
+    }
+
+
 
     private void OnDrawGizmos()
     {
@@ -248,7 +276,7 @@ public class BossFSMController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectRange);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(PatolPosition, patrolAreaSize);
+        Gizmos.DrawWireCube(PatrolPosition, patrolAreaSize);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }

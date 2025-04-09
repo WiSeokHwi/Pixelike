@@ -13,19 +13,24 @@ public class HeartsManager : MonoBehaviour
 
     void Start()
     {
-        Player = FindAnyObjectByType<Player>(); // Player 객체 찾기
+         // Player 객체 찾기
         if (Player != null)
         {
             Player.OnHealthChanged += UpdateHearts; // 이벤트 구독
         }
-        UpdateHearts();
+        
     }
+
     void OnDestroy()
     {
         if (Player != null)
         {
             Player.OnHealthChanged -= UpdateHearts; // 구독 해제 (메모리 누수 방지)
         }
+    }
+    void Update()
+    {
+        UpdateHearts();
     }
 
     void UpdateHearts()
@@ -42,7 +47,7 @@ public class HeartsManager : MonoBehaviour
 
             for (int i = 0; i < Player.MaxHealth; i++)
             {
-                if (i < Player.Health)
+                if (i < Player.health)
                 {
                     // 체력이 남아있는 부분은 꽉 찬 하트
                     Instantiate(fullHeart, transform);

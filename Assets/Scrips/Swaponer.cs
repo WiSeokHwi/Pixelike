@@ -13,8 +13,6 @@ public class SpawnInfo
 public class Swaponer : MonoBehaviour
 {
     public List<SpawnInfo> spawnInfos = new List<SpawnInfo>(); // 인스펙터에서 설정
-    public GameObject Player;
-    private GameObject playerInstance;
     private EnemyCTRL EnemyCTRL;
     public GameObject[] monsterPrefab;
     public int hellmaxMonsters = 20;
@@ -33,7 +31,6 @@ public class Swaponer : MonoBehaviour
     void Awake()
     {
         monsterHellCollider = monsterHell.GetComponent<Collider2D>();
-        playerInstance = Instantiate(Player, new Vector3(0, 0, 0), Quaternion.identity);
         StartCoroutine(SpawnMonsters());
 
     }
